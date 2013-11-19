@@ -56,7 +56,13 @@
 
                 _.each(propertyValues, function(value) {
                     var returnedValue = _.isFunction(value) ? value.apply(that, args) : value;
-                    returnValue = (typeof returnedValue === 'undefined' ? returnValue : returnedValue);
+                    if (typeof returnedValue !== 'undefined') {
+                        if (_.isObject(returnedValue) && _.isObject(returnValue)) {
+                            returnValue = _.extend(returnValue, returnedValue);
+                        } else {
+                            returnValue = returnedValue;
+                        }
+                    }
                 });
 
                 return returnValue;
